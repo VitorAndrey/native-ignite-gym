@@ -20,14 +20,14 @@ export function ExerciseCard({ exercise, ...rest }: ExerciseCardProps) {
       >
         <Image
           source={{
-            uri: "https://github.com/VitorAndrey.png",
+            uri: "https://thumb.mais.uol.com.br/16669847-large.jpg?ver=0",
           }}
           alt="Imagem do exercício"
           w={16}
           h={16}
           rounded="md"
           mr={4}
-          resizeMode="center"
+          resizeMode="cover"
         />
 
         <VStack flex={1}>

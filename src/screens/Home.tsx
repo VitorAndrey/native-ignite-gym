@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
 import { VStack, FlatList, HStack, Heading, Text } from "native-base";
-import { HomeHeader } from "@components/HomeHeader";
+
 import { Group } from "@components/Group";
+import { HomeHeader } from "@components/HomeHeader";
 import { ExerciseCard } from "@components/ExerciseCard";
+import { AppNavigationRoutesProps } from "@routes/app.routes";
 
 type GroupsType = string[];
 
@@ -24,6 +28,12 @@ export function Home() {
     "Rosca Direta",
   ]);
 
+  const navigation = useNavigation<AppNavigationRoutesProps>();
+
+  function handleOpenExerciseDetails() {
+    navigation.navigate("exercise");
+  }
+
   return (
     <VStack flex={1}>
       <HomeHeader />
@@ -43,6 +53,7 @@ export function Home() {
         _contentContainerStyle={{ px: 5 }}
         my={8}
         maxH={10}
+        minH={10}
       />
 
       <VStack flex={1} px={4}>
@@ -56,11 +67,15 @@ export function Home() {
           </Text>
         </HStack>
 
-        {/* LISTA DE CARDS */}
         <FlatList
           data={exercises}
           keyExtractor={(item) => item}
-          renderItem={({ item }) => <ExerciseCard exercise={item} />}
+          renderItem={({ item }) => (
+            <ExerciseCard
+              exercise={item}
+              onPress={() => handleOpenExerciseDetails()}
+            />
+          )}
           showsVerticalScrollIndicator={false}
           _contentContainerStyle={{ paddingBottom: 10 }}
         />

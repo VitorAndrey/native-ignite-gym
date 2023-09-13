@@ -57,10 +57,14 @@ export function Profile() {
           <Input bg="gray.600" placeholder="Nome" />
 
           <Input bg="gray.600" placeholder="Email" isDisabled />
-        </Center>
 
-        <VStack mt={12} mb={9}>
-          <Heading color="gray.200" fontSize="md" mb={2}>
+          <Heading
+            color="gray.200"
+            fontSize="md"
+            mb={2}
+            mt={12}
+            alignSelf="flex-start"
+          >
             Alterar senha
           </Heading>
 
@@ -72,8 +76,10 @@ export function Profile() {
             secureTextEntry
           />
 
-          <Button mt={4}>Atualizar</Button>
-        </VStack>
+          <Button mt={4} mb={9}>
+            Atualizar
+          </Button>
+        </Center>
       </ScrollView>
     </VStack>
   );
