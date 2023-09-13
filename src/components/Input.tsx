@@ -1,10 +1,14 @@
 import { Input as NativeBaseInput, IInputProps } from "native-base";
 
-export function Input({ ...rest }: IInputProps) {
+type InputProps = IInputProps & {
+  bg?: "gray.700" | "gray.600";
+};
+
+export function Input({ bg = "gray.700", ...rest }: InputProps) {
   return (
     <NativeBaseInput
       {...rest}
-      bg="gray.700"
+      bg={bg}
       h={14}
       px={4}
       borderWidth={0}
@@ -14,7 +18,7 @@ export function Input({ ...rest }: IInputProps) {
       placeholderTextColor="gray.300"
       mb={4}
       _focus={{
-        bg: "gray.700",
+        bg: bg,
         borderWidth: 1,
         borderColor: "green.500",
       }}
