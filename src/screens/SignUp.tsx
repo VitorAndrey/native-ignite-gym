@@ -8,11 +8,23 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 type FormDataProps = {
   name: string;
   email: string;
   password: string;
 };
+
+const signUpSchema = z.object({
+  name: z.string().min(2, { message: "Insira o nome" }),
+  email: z
+    .string()
+    .email({ message: "Insira um nome válido" })
+    .min(5, { message: "Insira o email" }),
+  password: z.string().min(1, { message: "Insira a senha" }),
+});
 
 export function SignUp() {
   const navigation = useNavigation();
@@ -20,7 +32,9 @@ export function SignUp() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormDataProps>();
+  } = useForm<FormDataProps>({
+    resolver: zodResolver(signUpSchema),
+  });
 
   function handleGoBack() {
     navigation.goBack();
@@ -58,9 +72,6 @@ export function SignUp() {
           <Controller
             control={control}
             name="name"
-            rules={{
-              required: "Informe o nome.",
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="Nome"
@@ -74,13 +85,6 @@ export function SignUp() {
           <Controller
             control={control}
             name="email"
-            rules={{
-              required: "Informe o email.",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Email inválido",
-              },
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="E-mail"
