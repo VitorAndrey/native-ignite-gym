@@ -1,4 +1,6 @@
 import { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
 import {
   Center,
@@ -7,6 +9,7 @@ import {
   Skeleton,
   Text,
   Heading,
+  useToast,
 } from "native-base";
 
 import { ScreenHeader } from "@components/ScreenHeader";
@@ -17,6 +20,45 @@ import { Button } from "@components/Button";
 
 export function Profile() {
   const [isPhotoLoading, setIsPhotoLoading] = useState<boolean>(false);
+  const [userPhoto, setUserPhoto] = useState<string>(
+    "https://github.com/VitorAndrey.png"
+  );
+
+  const toast = useToast();
+
+  async function handlePickUserImage() {
+    setIsPhotoLoading(true);
+    try {
+      const selectedPhoto = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true,
+      });
+
+      if (selectedPhoto.canceled) {
+        return;
+      }
+
+      const photoUri = selectedPhoto.assets[0].uri;
+      if (photoUri) {
+        const photoInfo = await FileSystem.getInfoAsync(photoUri);
+
+        if (photoInfo.exists && photoInfo.size / 1024 / 1024 > 3) {
+          return toast.show({
+            title: "Essa imagem é muito grande. Escolha uma de até 3MB",
+            bgColor: "red.500",
+            placement: "top",
+          });
+        }
+        setUserPhoto(photoUri);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsPhotoLoading(false);
+    }
+  }
 
   const PHOTO_SIZE = 32;
 
@@ -36,13 +78,13 @@ export function Profile() {
             />
           ) : (
             <UserPhoto
-              source={{ uri: "https://github.com/VitorAndrey.png" }}
+              source={{ uri: userPhoto }}
               alt="Foto do usuário"
               size={PHOTO_SIZE}
             />
           )}
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handlePickUserImage}>
             <Text
               color="green.500"
               fontWeight="bold"
