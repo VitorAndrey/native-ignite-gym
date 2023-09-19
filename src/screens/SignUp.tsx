@@ -23,7 +23,9 @@ const signUpSchema = z.object({
     .string()
     .email({ message: "Insira um nome válido" })
     .min(5, { message: "Insira o email" }),
-  password: z.string().min(1, { message: "Insira a senha" }),
+  password: z
+    .string()
+    .min(6, { message: "A senha deve conter ao menos 6 dígitos" }),
 });
 
 export function SignUp() {
