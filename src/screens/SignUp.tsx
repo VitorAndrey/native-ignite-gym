@@ -42,7 +42,22 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp(data: FormDataProps) {}
+  function handleSignUp(data: FormDataProps) {
+    const user = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+
+    fetch("http://172.25.238.247:3333/users", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+  }
 
   return (
     <ScrollView

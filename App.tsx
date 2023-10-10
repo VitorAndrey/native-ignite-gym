@@ -10,7 +10,7 @@ import {
 import { THEME } from "./src/theme/index";
 import { Loading } from "@components/Loading";
 
-import { Routes } from "@routes/intex";
+import { Routes } from "@routes/index";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
